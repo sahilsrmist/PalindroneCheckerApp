@@ -1,16 +1,14 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Scanner;
-import java.util.Stack;
 
 /**
  * ============================================================================
- * MAIN CLASS - UseCase6PalindromeCheckerApp
+ * MAIN CLASS - UseCase7PalindromeCheckerApp
  * ============================================================================
- * * Use Case 6: Queue + Stack Fairness Check
+ * * Use Case 7: Deque Based Optimized Palindrome Checker
  * * Description:
- * This class demonstrates palindrome validation using two different
- * data structures: Queue (FIFO) and Stack (LIFO).
+ * This class validates a palindrome using a Deque (Double Ended Queue).
  */
 public class PalindroneCheckerApp {
     public static void main(String[] args) {
@@ -19,32 +17,32 @@ public class PalindroneCheckerApp {
         System.out.print("Input : ");
         String input = scanner.nextLine();
 
-        // Create a Queue (FIFO) - LinkedList implements the Queue interface in Java
-        Queue<Character> queue = new LinkedList<>();
+        // Create a Deque to store characters
+        // ArrayDeque is usually faster than LinkedList for stack/queue operations
+        Deque<Character> deque = new ArrayDeque<>();
 
-        // Create a Stack (LIFO)
-        Stack<Character> stack = new Stack<>();
-
-        // Insert each character into both queue and stack
+        // Add each character to the deque
         for (char c : input.toCharArray()) {
-            queue.add(c);  // Enqueue
-            stack.push(c); // Push
+            deque.addLast(c);
         }
 
-        // Flag to track palindrome status
+        // Flag to track palindrome result
         boolean isPalindrome = true;
 
-        // Compare characters until the queue becomes empty
-        while (!queue.isEmpty()) {
-            // dequeue (poll) gets the FIRST character added
-            // pop gets the LAST character added
-            if (!queue.poll().equals(stack.pop())) {
+        // Continue comparison while more than one element exists
+        // If 0 or 1 element remains, it's naturally a palindrome
+        while (deque.size() > 1) {
+            // Remove from both ends and compare
+            char first = deque.removeFirst();
+            char last = deque.removeLast();
+
+            if (first != last) {
                 isPalindrome = false;
                 break;
             }
         }
 
-        // Display the result in the requested format
+        // Display the result
         System.out.println("Is Palindrome? : " + isPalindrome);
 
         scanner.close();
