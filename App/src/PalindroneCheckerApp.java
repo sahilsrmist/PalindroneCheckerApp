@@ -1,35 +1,38 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+/**
+ * ============================================================================
+ * MAIN CLASS - UseCase5PalindromeCheckerApp
+ * ============================================================================
+ * * Use Case 5: Stack Based Palindrome Checker (Interactive Version)
+ */
 public class PalindroneCheckerApp {
-    /**
-     * Application entry point for UC4.
-     * @param args Command-line arguments
-     */
     public static void main(String[] args) {
-        // Declare and initialize the input string
-        String input = "radar";
+        // Initialize Scanner for user input
+        Scanner scanner = new Scanner(System.in);
 
-        // Convert the string into a character array
-        char[] chars = input.toCharArray();
+        System.out.print("Enter a word to check if it's a palindrome: ");
+        String input = scanner.nextLine();
 
-        // Initialize pointer at the beginning
-        int start = 0;
+        // Create a Stack to store characters (LIFO)
+        Stack<Character> stack = new Stack<>();
 
-        // Initialize pointer at the end
-        int end = chars.length - 1;
+        // Push Phase: Load the stack with the input string
+        for (char c : input.toCharArray()) {
+            stack.push(c);
+        }
 
         // Assume palindrome initially
         boolean isPalindrome = true;
 
-        // Continue comparison until pointers cross
-        while (start < end) {
-            // Compare characters at current pointer positions
-            if (chars[start] != chars[end]) {
+        // Pop Phase: Compare original characters with stack contents
+        for (int i = 0; i < input.length(); i++) {
+            // Compare the character at index i with the character popped from top
+            if (input.charAt(i) != stack.pop()) {
                 isPalindrome = false;
-                break; // Exit loop early if a mismatch is found
+                break;
             }
-
-            // Move pointers toward the center
-            start++;
-            end--;
         }
 
         // Display the result
@@ -38,5 +41,8 @@ public class PalindroneCheckerApp {
         } else {
             System.out.println("Result: '" + input + "' is NOT a palindrome.");
         }
+
+        // Close scanner to prevent memory leaks
+        scanner.close();
     }
 }
