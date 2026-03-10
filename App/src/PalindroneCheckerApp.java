@@ -1,48 +1,52 @@
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 
 /**
  * ============================================================================
- * MAIN CLASS - UseCase5PalindromeCheckerApp
+ * MAIN CLASS - UseCase6PalindromeCheckerApp
  * ============================================================================
- * * Use Case 5: Stack Based Palindrome Checker (Interactive Version)
+ * * Use Case 6: Queue + Stack Fairness Check
+ * * Description:
+ * This class demonstrates palindrome validation using two different
+ * data structures: Queue (FIFO) and Stack (LIFO).
  */
 public class PalindroneCheckerApp {
     public static void main(String[] args) {
-        // Initialize Scanner for user input
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter a word to check if it's a palindrome: ");
+        System.out.print("Input : ");
         String input = scanner.nextLine();
 
-        // Create a Stack to store characters (LIFO)
+        // Create a Queue (FIFO) - LinkedList implements the Queue interface in Java
+        Queue<Character> queue = new LinkedList<>();
+
+        // Create a Stack (LIFO)
         Stack<Character> stack = new Stack<>();
 
-        // Push Phase: Load the stack with the input string
+        // Insert each character into both queue and stack
         for (char c : input.toCharArray()) {
-            stack.push(c);
+            queue.add(c);  // Enqueue
+            stack.push(c); // Push
         }
 
-        // Assume palindrome initially
+        // Flag to track palindrome status
         boolean isPalindrome = true;
 
-        // Pop Phase: Compare original characters with stack contents
-        for (int i = 0; i < input.length(); i++) {
-            // Compare the character at index i with the character popped from top
-            if (input.charAt(i) != stack.pop()) {
+        // Compare characters until the queue becomes empty
+        while (!queue.isEmpty()) {
+            // dequeue (poll) gets the FIRST character added
+            // pop gets the LAST character added
+            if (!queue.poll().equals(stack.pop())) {
                 isPalindrome = false;
                 break;
             }
         }
 
-        // Display the result
-        if (isPalindrome) {
-            System.out.println("Result: '" + input + "' is a palindrome.");
-        } else {
-            System.out.println("Result: '" + input + "' is NOT a palindrome.");
-        }
+        // Display the result in the requested format
+        System.out.println("Is Palindrome? : " + isPalindrome);
 
-        // Close scanner to prevent memory leaks
         scanner.close();
     }
 }
