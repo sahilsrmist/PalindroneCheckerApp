@@ -1,68 +1,51 @@
-import java.util.Scanner;
-import java.util.Stack;
-
 /**
  * ============================================================================
- * MAIN CLASS - UseCase12PalindromeCheckerApp
+ * MAIN CLASS - UseCase13PerformanceComparisonApp
  * ============================================================================
- * * Use Case 12: Strategy Pattern for Palindrome Algorithms
+ * * Use Case 13: Performance Comparison
  * * Description:
- * This class demonstrates how different palindrome validation algorithms
- * can be selected dynamically at runtime using the Strategy Design Pattern.
+ * This class measures and compares the execution time of various
+ * palindrome validation approaches using System.nanoTime().
  */
 public class PalindroneCheckerApp {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        String input = "radar"; // You can use a very long string for more visible differences
 
-        System.out.print("Input : ");
-        String input = scanner.nextLine();
+        System.out.println("Performance Comparison for: " + input);
+        System.out.println("-------------------------------------------");
 
-        // 1. Define a strategy (We are using the Stack-based implementation here)
-        // This is where Polymorphism happens: Reference is Interface, Object is Concrete Class.
-        PalindromeStrategy strategy = new StackStrategy();
+        // Test Strategy 1: Stack Based (UC5/UC12)
+        compareStrategy("Stack-Based Approach", new StackStrategy(), input);
 
-        // 2. Execute the selected algorithm
-        boolean isPalindrome = strategy.check(input);
+        // Test Strategy 2: Two-Pointer Approach (UC4/UC11 logic)
+        compareStrategy("Two-Pointer Approach", new TwoPointerStrategy(), input);
+    }
 
-        // Display results
-        System.out.println("Is Palindrome? : " + isPalindrome);
+    private static void compareStrategy(String name, PalindromeStrategy strategy, String input) {
+        // Capture start time in nanoseconds
+        long startTime = System.nanoTime();
 
-        scanner.close();
+        // Execute the algorithm
+        strategy.check(input);
+
+        // Capture end time
+        long endTime = System.nanoTime();
+
+        // Calculate duration
+        long duration = endTime - startTime;
+
+        System.out.printf("%-25s : %d ns\n", name, duration);
     }
 }
 
-/**
- * INTERFACE - PalindromeStrategy
- * Defines a contract for all palindrome checking algorithms.
+/** * Optimized Two-Pointer Strategy for comparison
  */
-interface PalindromeStrategy {
-    /**
-     * @param input String to validate
-     * @return true if palindrome, false otherwise
-     */
-    boolean check(String input);
-}
-
-/**
- * CLASS - StackStrategy
- * Implements the PalindromeStrategy using a Stack (LIFO).
- */
-class StackStrategy implements PalindromeStrategy {
-
+class TwoPointerStrategy implements PalindromeStrategy {
     @Override
     public boolean check(String input) {
-        Stack<Character> stack = new Stack<>();
-
-        // Push Phase
-        for (char c : input.toCharArray()) {
-            stack.push(c);
-        }
-
-        // Compare Phase
-        for (char c : input.toCharArray()) {
-            if (c != stack.pop()) {
-                return false;
-            }
+        int start = 0, end = input.length() - 1;
+        while (start < end) {
+            if (input.charAt(start++) != input.charAt(end--)) return false;
         }
         return true;
     }
