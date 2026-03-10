@@ -1,31 +1,44 @@
 import java.util.Scanner;
-public class PalindroneCheckerApp {
+
+/**
+ * ============================================================================
+ * MAIN CLASS - UseCase3PalindromeCheckerApp
+ * ============================================================================
+ * * Use Case 3: Reverse String Based Palindrome Check
+ * * Description:
+ * This class checks whether a string is a palindrome
+ * by reversing the string and comparing it with
+ * the original value.
+ */
+public class UseCase3PalindromeCheckerApp {
+
+    /**
+     * Application entry point for UC3.
+     * @param args Command-line arguments
+     */
     public static void main(String[] args) {
-        System.out.println("Welcome to Palindrome Checker App Management System");
-        System.out.println("Modify this logic to usecase 2");
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("--- Welcome to Palindrome Checker App ---");
-        System.out.print("Enter a word or phrase: ");
+        System.out.print("Enter a string to check: ");
         String input = scanner.nextLine();
 
-        if (isPalindrome(input)) {
-            System.out.println("✨ Result: '" + input + "' is a palindrome!");
-        } else {
-            System.out.println("❌ Result: '" + input + "' is NOT a palindrome.");
-        }
+        // Step 1: Initialize an empty string to store the reversed version
+        String reversed = "";
+
+        // Step 2: Iterate from the last character to the first (as per hint)
+        //         for (int i = input.length() - 1; i >= 0; i--) {
+        // Step 3: Concatenate each character to the 'reversed' string
+        reversed += input.charAt(i);
+    }
+
+    // Step 4: Compare original and reversed strings using .equals()
+    // Note: We use .toLowerCase() to ensure the check is case-insensitive
+        if (input.equalsIgnoreCase(reversed)) {
+        System.out.println("Result: '" + input + "' is a palindrome.");
+    } else {
+        System.out.println("Result: '" + input + "' is NOT a palindrome.");
+    }
 
         scanner.close();
-    }
-
-    public static boolean isPalindrome(String str) {
-        // Step 1: Normalize the string (lowercase and remove non-alphanumeric characters)
-        String clean = str.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-
-        // Step 2: Reverse the cleaned string
-        String reversed = new StringBuilder(clean).reverse().toString();
-
-        // Step 3: Compare and return
-        return clean.equals(reversed);
-    }
+}
 }
